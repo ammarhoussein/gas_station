@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum FuelKind {
+  GASOLINE
+  DIESEL
+}
+
+model GasStation {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  location   String?
+  owner_id   String
+  
+  // Relations
+  owner      User     @relation("OwnerStations", fields: [owner_id], references: [id])
+  tanks      Tank[]
+
+  created_at DateTime @default(now())
+}
+
+model Tank {
+  id                      String   @id @default(uuid())
+  name                    String
+  station_id              String
+  fuel_type               FuelKind
+  current_quantity_liters Decimal  @db.Decimal(12, 2)
+
+  // Relations
+  station                 GasStation @relation(fields: [station_id], references: [id])
+  readings                DailyReading[]
+  refills                 Refill[]
+
+  @@unique([station_id, name])
+}
+
+model DailyReading {
+  id                 String   @id @default(uuid())
+  tank_id            String
+  reading_date       DateTime @db.Date
+  
+  start_counter      Decimal  @db.Decimal(12, 2)
+  end_counter        Decimal  @db.Decimal(12, 2)
+  consumption_liters Decimal  @db.Decimal(12, 2)
+  
+  created_by         String
+  created_at         DateTime @default(now())
+
+  // Relations
+  tank               Tank     @relation(fields: [tank_id], references: [id])
+  user               User     @relation(fields: [created_by], references: [id])
+
+  @@unique([tank_id, reading_date])
+}
+
+model Refill {
+  id              String   @id @default(uuid())
+  tank_id         String
+  quantity_liters Decimal  @db.Decimal(12, 2)
+  refilled_at     DateTime @default(now())
+  created_by      String
+
+  // Relations
+  tank            Tank     @relation(fields: [tank_id], references: [id])
+  user            User     @relation(fields: [created_by], references: [id])
+}
+
+model User {
+  id              String   @id @default(uuid())
+  username        String   @unique
+  password_hash   String
+  role            String   @default("manager")
+  
+  // Relations
+  owned_stations  GasStation[]   @relation("OwnerStations")
+  work_station_id String?
+  
+  readings        DailyReading[]
+  refills         Refill[]
+}
+
+
