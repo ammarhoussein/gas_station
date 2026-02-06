@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt'; // Ensure bcrypt is installed
 import * as dotenv from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 // auth.service.ts
 type AuthInput={username:string,password:string}
 type SignInData={userId:string,username:string}
@@ -12,6 +13,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
   async authenticate(input:AuthInput):Promise<AuthResult>{
     const user =await this.validateUser(input);

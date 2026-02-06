@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -10,7 +11,17 @@ import { DailyReadingsModule } from './daily-readings/daily-readings.module';
 import { RefillsModule } from './refills/refills.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, DatabaseModule, TanksModule, DailyReadingsModule, RefillsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // يجعله متاحاً في كل مكان دون إعادة استيراده
+    }),
+    AuthModule,
+    UsersModule, 
+    DatabaseModule, 
+    TanksModule, 
+    DailyReadingsModule, 
+    RefillsModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
