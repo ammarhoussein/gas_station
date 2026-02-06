@@ -4,13 +4,14 @@ import { PrismaClient, FuelKind } from '@prisma/client';
 import { PrismaPg } from "@prisma/adapter-pg";
 import * as bcrypt from 'bcrypt';
 const connectionString = process.env.DATABASE_URL;
+const adminPassword = process.env.SEED_ADMIN_PASSWORD;
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // 1. Create the User (Owner)
-  const hashedPassword = await bcrypt.hash('Alaa2026', 10);
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
   const owner = await prisma.user.upsert({
     where: { username: 'station_owner' },
     update: {},
