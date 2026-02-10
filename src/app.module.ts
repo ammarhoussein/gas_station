@@ -9,6 +9,7 @@ import { AuthService } from './auth/auth.service';
 import { TanksModule } from './tanks/tanks.module';
 import { DailyReadingsModule } from './daily-readings/daily-readings.module';
 import { RefillsModule } from './refills/refills.module';
+import { ProfitsModule } from './profits/profits.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { RefillsModule } from './refills/refills.module';
     DatabaseModule, 
     TanksModule, 
     DailyReadingsModule, 
-    RefillsModule
+    RefillsModule, ProfitsModule
   ],
   controllers: [AppController],
   providers: [AppService],

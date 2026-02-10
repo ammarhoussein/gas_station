@@ -44,6 +44,7 @@ CREATE TABLE "Refill" (
     "quantity_liters" DECIMAL(12,2) NOT NULL,
     "refilled_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_by" TEXT NOT NULL,
+    "note" TEXT,
 
     CONSTRAINT "Refill_pkey" PRIMARY KEY ("id")
 );
@@ -66,7 +67,7 @@ CREATE UNIQUE INDEX "GasStation_name_key" ON "GasStation"("name");
 CREATE UNIQUE INDEX "Tank_station_id_name_key" ON "Tank"("station_id", "name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "DailyReading_tank_id_reading_date_key" ON "DailyReading"("tank_id", "reading_date");
+CREATE UNIQUE INDEX "DailyReading_tank_id_reading_date_start_counter_end_counter_key" ON "DailyReading"("tank_id", "reading_date", "start_counter", "end_counter");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");

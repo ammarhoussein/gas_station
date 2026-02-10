@@ -38,6 +38,7 @@ export class RefillsService {
           tank_id: dto.tankId,
           quantity_liters: qty,
           created_by: userId,
+          note:dto.note!
         },
       }),
       this.databaseService.tank.update({
@@ -56,7 +57,7 @@ export class RefillsService {
   // ===============================
   // Queries
   // ===============================
-  async findAllForUser(userId: string) {
+  findAllForUser(userId: string) {
     return this.databaseService.refill.findMany({
       where: {
         tank: {

@@ -53,6 +53,15 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+  await prisma.profits.upsert({
+    where: { owner_id: owner.id},
+    update: {},
+    create: {
+      gas_profit: '0',
+      des_profit: '0',
+      owner_id: owner.id
+    },
+  })
 
   console.log('✅ Seed successful: 1 Owner, 1 Station, 4 Tanks created.');
 }

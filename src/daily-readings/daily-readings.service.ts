@@ -34,12 +34,12 @@ export class DailyReadingsService {
       throw new BadRequestException('Invalid readingDate format');
     }
 
-    const existing = await this.databaseService.dailyReading.findUnique({
+    const existing = await this.databaseService.dailyReading.findFirst({
       where: {
-        tank_id_reading_date: {
-          tank_id: tank.id,
-          reading_date: readingDate,
-        },
+       start_counter:dto.startCounter,
+        end_counter:dto.endCounter,
+        tank_id: tank.id,
+        reading_date: readingDate,
       },
     });
 
@@ -70,7 +70,11 @@ export class DailyReadingsService {
     }
 
     const consumption = end.sub(start);
+    const tank_quantity=new Prisma.Decimal(tank.current_quantity_liters)
 
+    if(tank_quantity.lt(consumption)){
+      throw new BadRequestException('the process can not be proceed , the remining quantity in the tank is not enough');
+    }
     // 2️⃣ batch transaction
     await this.databaseService.$transaction([
       this.databaseService.dailyReading.create({
