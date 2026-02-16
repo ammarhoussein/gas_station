@@ -33,6 +33,7 @@ export class ProfitsService {
     await this.ds.profits.update({
       where:{id:profits.id},
         data:{
+          balance:dto.balance ?? profits.balance,
           gas_profit: dto.gas_profit ?? profits.gas_profit,
           des_profit: dto.des_profit ?? profits.des_profit,
 

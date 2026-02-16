@@ -1,13 +1,3 @@
-/* import { Injectable ,OnModuleInit} from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-//import { PrismaClient } from 'generated/prisma';
-@Injectable()
-export class DatabaseService extends PrismaClient implements OnModuleInit {
-    async onModuleInit() {
-        this.$connect()
-    }
-} */
-
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -44,6 +34,7 @@ export class DatabaseService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy {
   constructor() {
+  dotenv.config();
     super({
       // Use accelerateUrl for Prisma Accelerate
       accelerateUrl: process.env.DATABASE_URL!,

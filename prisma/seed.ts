@@ -57,6 +57,7 @@ async function main() {
     where: { owner_id: owner.id},
     update: {},
     create: {
+      balance: '0',
       gas_profit: '0',
       des_profit: '0',
       owner_id: owner.id

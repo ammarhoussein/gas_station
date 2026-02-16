@@ -72,6 +72,7 @@ model Refill {
 
 model Profits{
   id           String   @id @default(uuid())
+  balance      String
   owner_id     String
   gas_profit   String
   des_profit   String
